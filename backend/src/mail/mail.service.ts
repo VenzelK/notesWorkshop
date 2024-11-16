@@ -1,4 +1,4 @@
-import { Injectable, OnModuleInit } from '@nestjs/common';
+import { HttpStatus, Injectable, OnModuleInit } from '@nestjs/common';
 import * as fs from 'fs/promises';
 import * as nodemailer from 'nodemailer';
 import SMTPTransport from 'nodemailer/lib/smtp-transport';
@@ -13,9 +13,12 @@ export class MailService implements OnModuleInit {
 
   async postMail(userId: number, userEmail: string) {
     try {
+      if ((await this.userService.findById(userId)).emailVerification == true) {
+        return { status: HttpStatus.NOT_MODIFIED };
+      }
       const emailCode = this.generateEmailToken();
 
-      this.userService.update(userId, { emailCode });
+      this.userService.update(userId, { emailVerificationCode: emailCode });
 
       const htmlText = await this.readHtml('src/mail/resources/mail.html');
 
@@ -68,5 +71,20 @@ export class MailService implements OnModuleInit {
     }
 
     return result;
+  }
+
+  async checkCode(code: string, userId: number) {
+    const user = await this.userService.findById(userId);
+
+    if (user.emailVerificationCode == code) {
+      await this.userService.update(userId, {
+        emailVerificationCode: null,
+        emailVerification: true,
+      });
+
+      return { status: HttpStatus.CREATED };
+    }
+
+    return { status: HttpStatus.BAD_REQUEST };
   }
 }

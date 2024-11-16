@@ -1,6 +1,7 @@
 import {
   Controller,
   Post,
+  Query,
   Request,
   UseGuards,
   UsePipes,
@@ -20,5 +21,13 @@ export class MailController {
   @UsePipes(new ValidationPipe({ transform: true }))
   postMailMessage(@Request() req) {
     return this.mailService.postMail(+req.user['sub'], req.user['email']);
+  }
+
+  @Post('/check')
+  @ApiBearerAuth('JWT')
+  @UseGuards(AccessTokenGuard)
+  @UsePipes(new ValidationPipe({ transform: true }))
+  checkCode(@Query('code') code: string, @Request() req) {
+    return this.mailService.checkCode(code, +req.user['sub']);
   }
 }
