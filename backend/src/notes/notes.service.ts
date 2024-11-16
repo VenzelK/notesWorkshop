@@ -89,7 +89,7 @@ export class NotesService {
 
       const res = await this.prisma.note.update({
         where,
-        data: { ...updateNoteDto },
+        data: { ...updateNoteDto, updatedDate: new Date() },
       });
 
       return res;
