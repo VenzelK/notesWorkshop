@@ -16,7 +16,6 @@ model User {
   createdDate           DateTime
   refreshToken          String?
   emailVerificationCode String?
-  emailCode             String?
   Note                  Note[]
 }
 
