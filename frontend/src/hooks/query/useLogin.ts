@@ -63,7 +63,7 @@ const useLogin = () => {
 			if (data.message.includes('Password')) {
 				return { errorField: 'password' }
 			}
-			if (data.message.includes('user')) {
+			if (data.message.includes('User')) {
 				return { errorField: 'mail' }
 			}
 		}

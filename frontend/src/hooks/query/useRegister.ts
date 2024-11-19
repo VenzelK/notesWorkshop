@@ -52,7 +52,7 @@ const useRegister = () => {
 					return { errorField: 'password' }
 				}
 			}
-			if (data.message.includes('User already exists')) {
+			if (data.message.includes('User')) {
 				return { errorField: 'mail' }
 			}
 		}
