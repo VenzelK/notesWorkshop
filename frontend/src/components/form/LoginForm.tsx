@@ -96,7 +96,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ className }) => {
 					<Input
 						{...register('mail', { required: true })}
 						type='text'
-						maxLength={20}
+						maxLength={40}
 						className={errors.mail && ' border-red'}
 					/>
 
