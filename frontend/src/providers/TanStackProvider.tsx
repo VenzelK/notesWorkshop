@@ -20,6 +20,9 @@ const TanStackProvider: React.FC<TanStackProviderProps> = ({ children }) => {
 
 	queryClient.setQueryDefaults(['endpoints'], {
 		initialData,
+		queryFn: () => {
+			return initialData
+		},
 	})
 
 	return (
