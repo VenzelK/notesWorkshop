@@ -1,5 +1,5 @@
 import MailReceiveForm from '@/components/form/MailReceiveForm'
-import SendCodeBtn from '@/components/other/SendCodeBtn'
+import SendCodeBtn from '@/components/sendCode/SendCodeBtn'
 import { AccessToken } from '@/types/store.types'
 import { jwtDecode } from 'jwt-decode'
 import { NextPage } from 'next'
