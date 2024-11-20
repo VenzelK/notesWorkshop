@@ -1,27 +1,42 @@
 'use client'
 
+import {
+	StoreEndpoints,
+	StoreLogin,
+	StoreSearchData,
+} from '@/types/store.types'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
-import { StoreEndpoints } from '../types/store.types'
 
 interface TanStackProviderProps {
 	children: React.ReactNode
+	data: Record<
+		'login' | 'endpoints' | 'search',
+		StoreEndpoints | StoreLogin | StoreSearchData
+	>
 }
 
-const TanStackProvider: React.FC<TanStackProviderProps> = ({ children }) => {
-	const queryClient = new QueryClient()
+const queryClient = new QueryClient()
 
-	const initialData: StoreEndpoints = {
-		login: 'http://localhost:4000/auth/signin',
-		register: 'http://localhost:4000/auth/signup',
-		mailPost: 'http://localhost:4000/mail/post',
-		mailCheck: 'http://localhost:4000/mail/check',
-	}
-
+const TanStackProvider: React.FC<TanStackProviderProps> = ({
+	children,
+	data,
+}) => {
 	queryClient.setQueryDefaults(['endpoints'], {
-		initialData,
 		queryFn: () => {
-			return initialData
+			return data.endpoints
+		},
+	})
+
+	queryClient.setQueryDefaults(['login'], {
+		queryFn: () => {
+			return data.login
+		},
+	})
+
+	queryClient.setQueryDefaults(['search'], {
+		queryFn: () => {
+			return data.search
 		},
 	})
 
