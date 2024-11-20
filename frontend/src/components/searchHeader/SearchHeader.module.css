@@ -1,0 +1,29 @@
+.sortBtn_container {
+	@apply relative;
+}
+.btn {
+	@apply rounded-menu_radius px-10 py-2;
+}
+
+.sortBtn {
+	@apply bg-btn_blue relative pl-10 pr-0 flex flex-row font-extrabold items-center gap-5;
+}
+.refreshBtn {
+	@apply bg-btn_blue;
+}
+.addBtn {
+	@apply bg-green;
+}
+
+.dropDownMenu {
+	@apply absolute left-24 top-16 rounded-menu_radius bg-bg_color border-2 border-black;
+	@apply px-10 pt-8 pb-5;
+}
+
+.searchInput {
+	@apply placeholder:text-[24px] px-10 py-2 w-full rounded-menu_radius shadow-xl;
+}
+
+.searchIcon {
+	@apply absolute bottom-1 left-1;
+}

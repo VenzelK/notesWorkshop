@@ -18,6 +18,7 @@ export default {
 				green_disabled: 'rgba(139, 195, 74, 0.45)',
 				second_button: 'rgba(139, 195, 74, 0.03)',
 				red: '#961C1C',
+				btn_blue: 'rgba(66, 172, 201, 0.08)',
 			},
 		},
 	},
