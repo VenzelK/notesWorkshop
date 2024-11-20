@@ -7,8 +7,13 @@ export interface StoreEndpoints {
 	mailCheck: string
 }
 
+export enum Role {
+	Admin = 'Admin',
+	User = 'User',
+}
+
 export interface AccessToken extends JwtPayload {
 	emailVerification: boolean
 	email: string
-	role: string
+	role: Role
 }
