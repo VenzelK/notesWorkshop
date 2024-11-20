@@ -1,33 +1,33 @@
 'use client'
 import useCheckMailCode from '@/hooks/query/useCheckMailCode'
-import usePostMail from '@/hooks/query/usePostMail'
+import useRefreshToken from '@/hooks/query/useRefreshToken'
 import { useIsFetching } from '@tanstack/react-query'
+import { useCookies } from 'next-client-cookies'
 import { useRouter } from 'next/navigation'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { StatefulPinInput } from 'react-input-pin-code'
 import styles from './MailReceiverForm.module.css'
 interface MailReceiveFormProps {
 	className?: string
 	accessToken: string
+	refreshToken: string
 }
 
 const MailReceiveForm: React.FC<MailReceiveFormProps> = ({
 	className,
 	accessToken,
+	refreshToken,
 }) => {
 	const isFetching = useIsFetching()
+	const cookies = useCookies()
 
 	const router = useRouter()
 
-	const { mutate: postMailMutate } = usePostMail()
 	const { mutate: postCodeMailMutate } = useCheckMailCode()
+	const { mutate: refreshTokenMutate } = useRefreshToken({ cookies })
 
 	const [isSendingCode, setIsSendingCode] = useState(false)
 	const [code, setCode] = useState<string[]>([])
-
-	useEffect(() => {
-		postMailMutate({ accessToken })
-	}, [])
 
 	const sendCode = (values: string[]) => {
 		if (code == values) {
@@ -38,14 +38,16 @@ const MailReceiveForm: React.FC<MailReceiveFormProps> = ({
 		postCodeMailMutate(
 			{ values, accessToken },
 			{
-				onSuccess(data, variables, context) {
+				onSuccess(data) {
 					if (data) {
+						refreshTokenMutate({ refreshToken })
 						router.push('/')
 					}
 					setIsSendingCode(false)
 				},
-				onError() {
+				onError(error) {
 					setIsSendingCode(false)
+					console.log('Error when postCode' + error)
 				},
 			}
 		)

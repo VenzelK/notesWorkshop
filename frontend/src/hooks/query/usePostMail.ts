@@ -21,10 +21,6 @@ const usePostMail = () => {
 
 		const checkResult = await checkResponse(response)
 
-		if (checkResult) {
-			return checkResult
-		}
-
 		return checkResult
 	}
 	const checkResponse = async (response: Response): Promise<boolean> => {
@@ -33,8 +29,6 @@ const usePostMail = () => {
 		if (response.status != 201) {
 			return false
 		}
-
-		console.log({ postMessage: data.message })
 
 		return true
 	}
