@@ -1,0 +1,11 @@
+.container {
+	@apply flex flex-col gap-2 w-full items-center;
+}
+
+.login_link {
+	@apply bg-green py-1 px-2 rounded-menu_radius mt-10 text-[20px] font-bold;
+}
+
+.notes_container {
+	@apply w-full h-full flex flex-wrap gap-y-8;
+}

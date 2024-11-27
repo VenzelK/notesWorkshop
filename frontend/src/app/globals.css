@@ -1,0 +1,63 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+	@apply bg-bg_color;
+}
+
+button {
+	@apply hover:shadow-2xl focus:font-light;
+}
+
+.loginPageContainer {
+	@apply flex lg:flex-row max-sm:flex-col gap-10 max-sm:gap-5 h-screen justify-center items-center m-auto px-6;
+}
+
+.loginPageHead {
+	@apply bg-menu_color rounded-menu_radius bg-opacity-5;
+	@apply flex flex-row sm:max-lg:flex-col-reverse sm:max-lg:justify-center max-lg:gap-5 justify-between items-center;
+	@apply max-sm:mt-10 max-md:py-10 md:h-2/5;
+	@apply max-sm:w-full max-lg:w-2/5 xl:w-3/12;
+	@apply max-sm:py-10 max-lg:py-10;
+}
+
+.loginPageHead__text {
+	@apply font-bold text-text_color text-[24px] max-lg:text-[22px] text-wrap max-w-36 ml-2;
+}
+
+.loginPageMain__form {
+	@apply bg-menu_color flex-1 rounded-menu_radius flex flex-col justify-between pr-12;
+	@apply max-sm:mt-10 max-md:py-10 md:h-2/5 pt-16 lg:h-2/5 max-md:px-6 max-md:pr-10 max-sm:w-full max-sm:pt-20;
+}
+
+.mainPage__container {
+	@apply relative w-full h-full min-h-screen;
+}
+
+.mainPage__mainContainer {
+	@apply flex flex-col gap-10 justify-center items-center m-auto px-6;
+}
+
+.mainPage__header {
+	@apply flex flex-col gap-10 justify-center items-center px-6 pt-10;
+}
+
+.mainPage__header__account {
+	@apply self-end;
+}
+
+.mainPage__mainContainer__main {
+	@apply flex-1 w-full;
+}
+
+.mailCodePage__container {
+	@apply flex h-screen m-auto px-6;
+}
+
+.mailCodePage__mainContainer {
+	@apply bg-menu_color flex-1 rounded-menu_radius  m-auto min-h-[400px] flex flex-row max-md:flex-col max-md:pt-10 items-center gap-10 max-sm:gap-20;
+}
+.mailCodePage__mainContainer_text {
+	@apply pl-10 text-wrap max-w-48 font-semibold text-[24px] max-md:px-4 max-md:max-w-full;
+}

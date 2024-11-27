@@ -1,0 +1,7 @@
+.container {
+	@apply flex flex-col gap-2 text-nowrap shadow-2xl;
+}
+
+.btn {
+	@apply bg-menu_color rounded-[5px] px-5 py-1;
+}

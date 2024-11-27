@@ -1,0 +1,18 @@
+.container {
+	@apply h-full w-full flex flex-col;
+}
+
+.pinInput_container {
+	@apply flex-1 self-center;
+}
+
+.pinInput {
+	border-width: 0 !important;
+	@apply bg-menu_color;
+}
+
+.pinInput:valid {
+	border-width: 0 !important;
+	background-color: rgba(153, 153, 153, 0.1) !important;
+	box-shadow: none !important;
+}
