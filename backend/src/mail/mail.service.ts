@@ -1,4 +1,10 @@
-import { HttpStatus, Injectable, OnModuleInit } from '@nestjs/common';
+import {
+  BadRequestException,
+  HttpStatus,
+  Injectable,
+  InternalServerErrorException,
+  OnModuleInit,
+} from '@nestjs/common';
 import * as fs from 'fs/promises';
 import * as nodemailer from 'nodemailer';
 import SMTPTransport from 'nodemailer/lib/smtp-transport';
@@ -34,6 +40,7 @@ export class MailService implements OnModuleInit {
       return;
     } catch (error) {
       console.log(error);
+      throw new InternalServerErrorException();
     }
   }
 
@@ -82,9 +89,9 @@ export class MailService implements OnModuleInit {
         emailVerification: true,
       });
 
-      return { status: HttpStatus.CREATED };
+      return;
     }
 
-    return { status: HttpStatus.BAD_REQUEST };
+    throw new BadRequestException('code is incorrect');
   }
 }

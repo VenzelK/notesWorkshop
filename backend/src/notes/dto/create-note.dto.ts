@@ -9,7 +9,7 @@ export class CreateNoteDto {
 
   @ApiProperty()
   @MinLength(2)
-  @MaxLength(120)
+  @MaxLength(1200)
   text: string;
 
   @ApiProperty()

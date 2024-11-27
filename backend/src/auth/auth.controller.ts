@@ -44,6 +44,8 @@ export class AuthController {
   @UsePipes(new ValidationPipe({ transform: true }))
   @Get('refresh')
   refreshTokens(@Request() req) {
+    console.log({ req, usr: req.user });
+
     const userId = req.user['sub'];
     const refreshToken = req.user['refreshToken'];
     return this.authService.refreshTokens(+userId, refreshToken);

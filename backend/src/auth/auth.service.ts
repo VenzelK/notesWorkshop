@@ -34,6 +34,7 @@ export class AuthService {
 
   async signIn(data: AuthDto) {
     const user = await this.userService.findByEmail(data.email);
+
     if (!user) throw new BadRequestException('User does not exist');
     const passwordMatches = await argon2.verify(user.password, data.password);
     if (!passwordMatches)
@@ -58,7 +59,7 @@ export class AuthService {
 
   async updateRefreshToken(userId: number, refreshToken: string) {
     const hashedRefreshToken = await this.hashData(refreshToken);
-    await this.userService.update(+userId, {
+    return await this.userService.update(userId, {
       refreshToken: hashedRefreshToken,
     });
   }
@@ -102,6 +103,8 @@ export class AuthService {
 
   async refreshTokens(userId: number, refreshToken: string) {
     const user = await this.userService.findById(userId);
+    console.log({ user });
+
     if (!user || !user.refreshToken)
       throw new ForbiddenException('Access Denied');
     const refreshTokenMatches = await argon2.verify(
@@ -115,7 +118,9 @@ export class AuthService {
       user.role,
       user.emailVerification,
     );
-    await this.updateRefreshToken(user.id, tokens.refreshToken);
+    const res = await this.updateRefreshToken(user.id, tokens.refreshToken);
+    console.log({ res });
+
     return tokens;
   }
 }

@@ -17,17 +17,21 @@ model User {
   refreshToken          String?
   emailVerificationCode String?
   Note                  Note[]
+
+  @@unique([id, email])
 }
 
 model Note {
   id          Int      @id @default(autoincrement())
   userId      Int
+  authorEmail String
   name        String
   text        String
   tags        String[]
   createdDate DateTime
   updatedDate DateTime
-  author      User     @relation(fields: [userId], references: [id])
+
+  author User @relation(fields: [userId, authorEmail], references: [id, email])
 }
 
 enum Roles {

@@ -28,12 +28,18 @@ export class NotesController {
   @UsePipes(new ValidationPipe({ transform: true }))
   @Post()
   create(@Request() req, @Body() createNoteDto: CreateNoteDto) {
-    return this.notesService.create(createNoteDto, req.user['sub']);
+    return this.notesService.create(
+      createNoteDto,
+      +req.user['sub'],
+      req.user['email'],
+    );
   }
 
   @UsePipes(new ValidationPipe({ transform: true }))
   @Get()
   findAll(@Request() req, @Query() findManyNotesDto: FindManyNotesDto) {
+    console.log({ findManyNotesDto });
+
     return this.notesService.findMany(findManyNotesDto, req.user['sub']);
   }
 

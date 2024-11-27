@@ -13,11 +13,16 @@ import { UpdateNoteDto } from './dto/update-note.dto';
 export class NotesService {
   constructor(private readonly prisma: PrismaService) {}
 
-  async create(createNoteDto: CreateNoteDto, userId: number) {
+  async create(
+    createNoteDto: CreateNoteDto,
+    userId: number,
+    userEmail: string,
+  ) {
     try {
       return await this.prisma.note.create({
         data: {
           userId: userId,
+          authorEmail: userEmail,
           ...createNoteDto,
           createdDate: new Date(),
           updatedDate: new Date(),
@@ -34,11 +39,11 @@ export class NotesService {
 
   async findMany(findManyNotesDto: FindManyNotesDto, userId: number) {
     try {
-      const { page, limit, tags, sortBy } = findManyNotesDto;
-      const skip = (page - 1) * limit;
+      var { page, limit, tags, sortBy } = findManyNotesDto;
+      var skip = (page - 1) * limit;
 
-      const where = {};
-      const orderBy = {};
+      var where = {};
+      var orderBy = {};
 
       switch (sortBy) {
         case 'createdDate':
@@ -55,11 +60,14 @@ export class NotesService {
           break;
       }
 
+      if (typeof tags === 'string') {
+        tags = [tags];
+      }
       if (tags?.length > 0) {
         where['tags'] = { hasEvery: tags };
       }
 
-      const result = await this.prisma.note.findMany({
+      var result = await this.prisma.note.findMany({
         where,
         skip,
         take: limit,
