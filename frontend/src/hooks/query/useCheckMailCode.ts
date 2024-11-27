@@ -1,22 +1,15 @@
+import { getEndpoints } from '@/utils/query'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import useEndpoints from '../useEndpoints'
+import { useCookies } from 'next-client-cookies'
 
 const useCheckMailCode = () => {
 	const queryClient = useQueryClient()
-	const { data: endpoints } = useEndpoints()
+	const endpoints = getEndpoints()
 
-	const checkCode = async ({
-		values,
-		accessToken,
-	}: {
-		values: string[]
-		accessToken: string
-	}) => {
-		if (!endpoints) {
-			throw new Error('Endpoints are not available')
-		}
+	const cookies = useCookies()
 
-		const headers = { Authorization: 'Bearer ' + accessToken }
+	const checkCode = async ({ values }: { values: string[] }) => {
+		const headers = { Authorization: 'Bearer ' + cookies.get('accessToken') }
 
 		const response = await fetch(
 			endpoints.mailCheck + '?code=' + values.join(''),
@@ -27,15 +20,6 @@ const useCheckMailCode = () => {
 			}
 		)
 
-		const checkResult = await checkResponse(response)
-
-		if (checkResult) {
-			return checkResult
-		}
-
-		return checkResult
-	}
-	const checkResponse = async (response: Response): Promise<boolean> => {
 		if (response.status != 201) {
 			return false
 		}

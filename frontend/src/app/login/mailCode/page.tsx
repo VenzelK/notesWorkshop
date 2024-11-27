@@ -1,10 +1,10 @@
 import MailReceiveForm from '@/components/form/MailReceiveForm'
 import SendCodeBtn from '@/components/sendCode/SendCodeBtn'
-import { AccessToken } from '@/types/store.types'
-import { jwtDecode } from 'jwt-decode'
 import { NextPage } from 'next'
 import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
+
+import * as jwt from '@/actions/jwt'
 
 const MailCodePage: NextPage = async () => {
 	const cookieStore = await cookies()
@@ -12,21 +12,24 @@ const MailCodePage: NextPage = async () => {
 	const accessToken = cookieStore.get('accessToken')?.value || ''
 	const refreshToken = cookieStore.get('refreshToken')?.value || ''
 
-	if (!accessToken) {
+	const tokenPayload = await jwt.decodeAccessToken(accessToken)
+
+	if (!tokenPayload) {
 		redirect('/login')
 	}
 
-	const isEmailVerif = jwtDecode<AccessToken>(accessToken).emailVerification
-	const userEmail = jwtDecode<AccessToken>(accessToken).email
+	const { emailVerification: isEmailVerif, email: userEmail } = tokenPayload
 
 	if (isEmailVerif) {
+		console.log('dada')
+
 		redirect('/')
 	}
 
 	return (
-		<div className='flex h-screen m-auto px-6 '>
-			<div className='bg-menu_color flex-1 rounded-menu_radius  m-auto min-h-[400px] flex  items-center gap-10'>
-				<div className='pl-10 text-wrap max-w-48 font-semibold text-[24px]'>
+		<div className='mailCodePage__container'>
+			<div className='mailCodePage__mainContainer'>
+				<div className='mailCodePage__mainContainer_text'>
 					Введите код отправленный на почту {userEmail}
 				</div>
 				<MailReceiveForm

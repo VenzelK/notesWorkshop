@@ -24,7 +24,7 @@ const MailReceiveForm: React.FC<MailReceiveFormProps> = ({
 	const router = useRouter()
 
 	const { mutate: postCodeMailMutate } = useCheckMailCode()
-	const { mutate: refreshTokenMutate } = useRefreshToken({ cookies })
+	const { mutate: refreshTokens } = useRefreshToken({ cookies })
 
 	const [isSendingCode, setIsSendingCode] = useState(false)
 	const [code, setCode] = useState<string[]>([])
@@ -36,11 +36,11 @@ const MailReceiveForm: React.FC<MailReceiveFormProps> = ({
 
 		setCode(values)
 		postCodeMailMutate(
-			{ values, accessToken },
+			{ values },
 			{
 				onSuccess(data) {
 					if (data) {
-						refreshTokenMutate({ refreshToken })
+						refreshTokens()
 						router.push('/')
 					}
 					setIsSendingCode(false)

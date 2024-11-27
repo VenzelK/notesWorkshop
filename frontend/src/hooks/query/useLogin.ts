@@ -1,11 +1,15 @@
 import { UnifiedResponse } from '@/types/login.types'
+import { setLoginCookie } from '@/utils/cookie'
+import { getEndpoints } from '@/utils/query'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { useCookies } from 'next-client-cookies'
 import { isArray } from 'util'
-import useEndpoints from '../useEndpoints'
 
 const useLogin = () => {
 	const queryClient = useQueryClient()
-	const { data: endpoints } = useEndpoints()
+	const endpoints = getEndpoints()
+
+	const cookies = useCookies()
 
 	const login = async ({
 		mail,
@@ -14,10 +18,6 @@ const useLogin = () => {
 		mail: string
 		password: string
 	}) => {
-		if (!endpoints) {
-			throw new Error('Endpoints are not available')
-		}
-
 		const response = await fetch(endpoints.login, {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
@@ -25,48 +25,41 @@ const useLogin = () => {
 			credentials: 'include',
 		})
 
-		const checkResult = await checkResponse(response)
+		let errorField: 'mail' | 'password'
 
-		if (checkResult.payload) {
-			queryClient.invalidateQueries(['login'])
-			return checkResult
-		}
-
-		return checkResult
-	}
-
-	const checkResponse = async (
-		response: Response
-	): Promise<{
-		errorField?: 'mail' | 'password'
-
-		payload?: UnifiedResponse
-	}> => {
 		const data = (await response.json()) as UnifiedResponse
 
 		if (response.status == 400) {
 			if (isArray(data.message)) {
 				if (data.message.some(str => str.includes('email'))) {
-					return { errorField: 'mail' }
+					errorField = 'mail'
+					return { errorField }
 				}
 				if (data.message.some(str => str.includes('Password'))) {
-					return { errorField: 'password' }
+					errorField = 'password'
+					return { errorField }
 				}
 				if (data.message.some(str => str.includes('User'))) {
-					return { errorField: 'mail' }
+					errorField = 'mail'
+					return { errorField }
 				}
 			}
 
 			if (data.message.includes('email')) {
-				return { errorField: 'mail' }
+				errorField = 'mail'
+				return { errorField }
 			}
 			if (data.message.includes('Password')) {
-				return { errorField: 'password' }
+				errorField = 'password'
+				return { errorField }
 			}
 			if (data.message.includes('User')) {
-				return { errorField: 'mail' }
+				errorField = 'mail'
+				return { errorField }
 			}
 		}
+
+		setLoginCookie(cookies, data.accessToken, data.refreshToken)
 		return { payload: data as UnifiedResponse }
 	}
 

@@ -1,7 +1,7 @@
 interface IconProps {
 	type: 'logo'
 	className: string
-	size: number
+	size?: number
 }
 
 const Icon: React.FC<IconProps> = ({ type, className, size }) => {

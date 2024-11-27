@@ -3,17 +3,12 @@
 import useLogin from '@/hooks/query/useLogin'
 import useRegister from '@/hooks/query/useRegister'
 import { UnifiedResponse } from '@/types/login.types'
-import { useIsFetching, useQueryClient } from '@tanstack/react-query'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { FaRegEye, FaRegEyeSlash } from 'react-icons/fa'
 import Input from '../input/Input'
 import styles from './LoginForm.module.css'
-
-import { jwtDecode } from 'jwt-decode'
-
-import { useCookies } from 'next-client-cookies'
 
 interface LoginFormProps {
 	className?: string
@@ -27,15 +22,9 @@ type LoginFormInputs = {
 const LoginForm: React.FC<LoginFormProps> = ({ className }) => {
 	const [passVisible, setPassVisible] = useState(false)
 
-	const isFetching = useIsFetching({ queryKey: ['login'] })
-
 	const router = useRouter()
 
-	const cookies = useCookies()
-
-	const queryClient = useQueryClient()
-
-	const { mutate: loginMutate } = useLogin()
+	const { mutate: loginMutate, isLoading } = useLogin()
 	const { mutate: registerMutate } = useRegister()
 
 	const onSuccess = (response: {
@@ -48,18 +37,6 @@ const LoginForm: React.FC<LoginFormProps> = ({ className }) => {
 			return
 		}
 		clearErrors()
-
-		if (response.payload?.accessToken && response.payload?.refreshToken) {
-			queryClient.setQueryData(['login'], {
-				...response.payload,
-				...jwtDecode(response.payload.accessToken),
-			})
-
-			cookies.set('accessToken', response.payload?.accessToken, {
-				path: '/',
-			})
-			cookies.set('refreshToken', response.payload?.refreshToken, { path: '/' })
-		}
 
 		router.push('/login/mailCode/')
 	}
@@ -126,7 +103,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ className }) => {
 				<button
 					className={styles.send_btn + ' ' + styles.registration_btn}
 					type='submit'
-					disabled={isFetching ? true : false}
+					disabled={isLoading ? true : false}
 					id='registerBtn'
 				>
 					Зарегистрироваться
@@ -134,7 +111,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ className }) => {
 				<button
 					className={styles.send_btn + ' ' + styles.login_btn}
 					type='submit'
-					disabled={isFetching ? true : false}
+					disabled={isLoading ? true : false}
 					id='loginBtn'
 				>
 					Войти

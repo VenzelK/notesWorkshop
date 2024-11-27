@@ -1,14 +1,5 @@
-import { JwtPayload } from 'jwt-decode'
+import { JWTPayload } from 'jose'
 import { SortType } from './notes.types'
-
-export interface StoreEndpoints {
-	login: string
-	register: string
-	mailPost: string
-	mailCheck: string
-	logout: string
-	refresh: string
-}
 
 export interface StoreLogin {
 	accessToken: string
@@ -25,8 +16,15 @@ export enum Role {
 	User = 'User',
 }
 
-export interface AccessToken extends JwtPayload {
+export interface AccessToken extends JWTPayload {
 	emailVerification: boolean
 	email: string
 	role: Role
+}
+
+export interface SearchDataStoreValue {
+	searchTags: string[]
+	searchTagsString: string
+	sortType: SortType
+	limit: number
 }

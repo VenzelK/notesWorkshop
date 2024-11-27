@@ -1,5 +1,5 @@
 .container {
-	@apply flex flex-row ml-auto gap-5 pr-12;
+	@apply flex flex-row ml-auto gap-5;
 }
 
 .clue_container {
@@ -27,7 +27,8 @@
 }
 
 .btn_container {
-	@apply ml-auto pr-5 flex flex-row gap-10 mb-2 mt-40;
+	@apply ml-auto flex flex-row gap-10 mb-2;
+	@apply max-md:flex-col;
 }
 
 .send_btn {

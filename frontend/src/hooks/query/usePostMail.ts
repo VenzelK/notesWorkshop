@@ -1,10 +1,10 @@
 import { MailResponse } from '@/types/login.types'
+import { getEndpoints } from '@/utils/query'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import useEndpoints from '../useEndpoints'
 
 const usePostMail = () => {
 	const queryClient = useQueryClient()
-	const { data: endpoints } = useEndpoints()
+	const endpoints = getEndpoints()
 
 	const postMail = async ({ accessToken }: { accessToken: string }) => {
 		if (!endpoints) {
@@ -19,11 +19,6 @@ const usePostMail = () => {
 			credentials: 'include',
 		})
 
-		const checkResult = await checkResponse(response)
-
-		return checkResult
-	}
-	const checkResponse = async (response: Response): Promise<boolean> => {
 		const data = (await response.json()) as MailResponse
 
 		if (response.status != 201) {
