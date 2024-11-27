@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+  <body>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        width: 800px;
+        height: 700px;
+        background-color: #2e2e2e;
+      }
+      .main_container {
+        display: flex;
+        flex-direction: column;
+        text-align: center;
+        height: 100%;
+      }
+      .header_container {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        margin-top: 50px;
+        margin-bottom: 20px;
+      }
+      .header {
+        font-size: 32px;
+        font-weight: bold;
+        color: #2e2e2e;
+      }
+      .code_container {
+        margin: auto;
+        height: 100%;
+        flex: 1;
+        display: flex;
+        align-items: center;
+      }
+      .code {
+        text-align: center;
+        font-size: 46px;
+        padding: 0 10px 0 10px;
+        background-color: #999999;
+        border-radius: 10px;
+      }
+      .logo {
+        margin-left: auto;
+        margin-right: 20px;
+        margin-bottom: 20px;
+      }
+    </style>
+
+    <div class="main_container">
+      <div class="header_container">
+        <p class="header">Для подтверждения почты введите этот код</p>
+      </div>
+      <div class="code_container">
+        <p class="code">{CODE}</p>
+      </div>
+      <svg
+        class="logo"
+        width="141"
+        height="182"
+        viewBox="0 0 141 182"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M124.826 0H22.0236C14.6115 0 11.3837 6.04297 11.3837 11.7305V34.3582H5.75563C2.96626 34.3582 0.705078 36.8522 0.705078 39.9293C0.705078 43.006 2.96626 45.5 5.75563 45.5H11.3837V68.3837H6.23773C3.4482 68.3837 1.18719 70.8778 1.18719 73.9546C1.18719 77.0317 3.4482 79.5257 6.23757 79.5257H11.3835V102.532H6.12671C3.33718 102.532 1.07617 105.026 1.07617 108.102C1.07617 111.179 3.33718 113.673 6.12671 113.673H11.3835V136.506H6.12671C3.33718 136.506 1.07617 139 1.07617 142.077C1.07617 145.153 3.33718 147.647 6.12671 147.647H11.3835V170.625C11.3835 180.049 18.0763 182 21.7811 182H124.826C133.37 182 140.295 174.362 140.295 164.938V17.0625C140.295 7.63831 133.373 0 124.826 0ZM21.6962 170.625L21.696 147.648H27.0688C29.8582 147.648 32.1194 145.154 32.1194 142.077C32.1194 139 29.8582 136.506 27.0688 136.506H21.696V113.673H27.0688C29.8582 113.673 32.1194 111.179 32.1194 108.102C32.1194 105.026 29.8582 102.532 27.0688 102.532H21.696V79.5255H27.1797C29.9694 79.5255 32.2304 77.0315 32.2304 73.9544C32.2304 70.8776 29.9694 68.3835 27.1798 68.3835H21.6962V45.5H26.6952C29.4847 45.5 31.7457 43.006 31.7457 39.9293C31.7457 36.8522 29.4847 34.3582 26.6952 34.3582H21.6962V11.7305C21.6962 11.5968 21.7065 11.4859 21.722 11.3864C21.8224 11.3789 21.923 11.3751 22.0236 11.375H104.201V170.625H21.6962ZM129.982 164.938C129.982 168.077 127.672 170.625 124.826 170.625H114.514V11.3752H124.826C127.672 11.3752 129.982 13.9232 129.982 17.0627V164.938Z"
+          fill="#8BC34A"
+          fill-opacity="0.65"
+        />
+      </svg>
+    </div>
+  </body>
+</html>
