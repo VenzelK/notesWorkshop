@@ -1,16 +1,18 @@
 import { EndpointsData } from '@/types/types'
 
+const backUrlBase = process.env.BACKEND_URL
+
 export const getEndpoints = (): EndpointsData => {
 	return {
-		login: 'http://localhost:4000/auth/signin',
-		register: 'http://localhost:4000/auth/signup',
-		mailPost: 'http://localhost:4000/mail/post',
-		mailCheck: 'http://localhost:4000/mail/check',
-		refresh: 'http://localhost:4000/auth/refresh',
-		logout: 'http://localhost:4000/auth/logout',
-		getNotes: 'http://localhost:4000/notes',
-		postNote: 'http://localhost:4000/notes',
-		updateNote: 'http://localhost:4000/notes',
-		deleteNote: 'http://localhost:4000/notes',
+		login: backUrlBase + '/auth/signin',
+		register: backUrlBase + '/auth/signup',
+		mailPost: backUrlBase + '/mail/post',
+		mailCheck: backUrlBase + '/mail/check',
+		refresh: backUrlBase + '/auth/refresh',
+		logout: backUrlBase + '/auth/logout',
+		getNotes: backUrlBase + '/notes',
+		postNote: backUrlBase + '/notes',
+		updateNote: backUrlBase + '/notes',
+		deleteNote: backUrlBase + '/notes',
 	}
 }
