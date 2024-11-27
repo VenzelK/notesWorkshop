@@ -1,6 +1,7 @@
+name: 'ww'
 services:
   db:
-    image: postgres:13
+    image: postgres:14
     environment:
       POSTGRES_USER: mario
       POSTGRES_PASSWORD: mario
@@ -8,7 +9,25 @@ services:
     ports:
       - '5432:5432'
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - ./db/:/var/lib/postgresql/data
+    network_mode: host
 
-volumes:
-  postgres_data:
+  frontend:
+    build:
+      context: .
+      dockerfile: ./deploy/frontend/Dockerfile
+    ports:
+      - '3000:3000'
+    network_mode: host
+    depends_on:
+      - backend
+
+  backend:
+    build:
+      context: .
+      dockerfile: ./deploy/backend/Dockerfile
+    ports:
+      - '4000:4000'
+    network_mode: host
+    depends_on:
+      - db
