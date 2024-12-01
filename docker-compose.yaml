@@ -1,4 +1,4 @@
-name: 'ww'
+name: 'cont'
 services:
   db:
     image: postgres:14
@@ -6,28 +6,53 @@ services:
       POSTGRES_USER: mario
       POSTGRES_PASSWORD: mario
       POSTGRES_DB: nestBackend
+      POSTGRES_HOST: db
     ports:
       - '5432:5432'
     volumes:
       - ./db/:/var/lib/postgresql/data
-    network_mode: host
+    restart: always
 
-  frontend:
+  frontend_prod:
     build:
       context: .
-      dockerfile: ./deploy/frontend/Dockerfile
+      dockerfile: ./deploy/frontend/Dockerfile.prod
     ports:
       - '3000:3000'
-    network_mode: host
     depends_on:
-      - backend
+      - backend_prod
+    profiles:
+      - prod
 
-  backend:
+  backend_prod:
     build:
       context: .
-      dockerfile: ./deploy/backend/Dockerfile
+      dockerfile: ./deploy/backend/Dockerfile.prod
     ports:
       - '4000:4000'
-    network_mode: host
     depends_on:
       - db
+    profiles:
+      - prod
+
+  frontend_dev:
+    build:
+      context: .
+      dockerfile: ./deploy/frontend/Dockerfile.dev
+    ports:
+      - '3000:3000'
+    depends_on:
+      - backend_dev
+    profiles:
+      - dev
+
+  backend_dev:
+    build:
+      context: .
+      dockerfile: ./deploy/backend/Dockerfile.dev
+    ports:
+      - '4000:4000'
+    depends_on:
+      - db
+    profiles:
+      - dev

@@ -1,0 +1,19 @@
+FROM node:lts
+
+WORKDIR /usr/src/app/
+
+COPY backend /usr/src/app/
+
+RUN yarn
+
+COPY backend /usr/src/app/
+COPY .env /usr/src/app/
+
+RUN npx prisma generate
+
+# RUN npx prisma migrate dev --name init
+
+# RUN npx prisma db push
+
+
+CMD ["yarn", "start:dev"]
