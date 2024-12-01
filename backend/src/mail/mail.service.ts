@@ -26,16 +26,18 @@ export class MailService implements OnModuleInit {
 
       this.userService.update(userId, { emailVerificationCode: emailCode });
 
-      const htmlText = await this.readHtml('src/mail/resources/mail.html');
+      if (process.env.USE_EMAIL_CHECK != '0') {
+        const htmlText = await this.readHtml('src/mail/resources/mail.html');
 
-      const html = htmlText.replace('{CODE}', emailCode);
+        const html = htmlText.replace('{CODE}', emailCode);
 
-      this.mailTransport.sendMail({
-        from: process.env.EMAIL_ADDRESS,
-        to: userEmail,
-        subject: 'Notes Verification',
-        html,
-      });
+        this.mailTransport.sendMail({
+          from: process.env.EMAIL_ADDRESS,
+          to: userEmail,
+          subject: 'Notes Verification',
+          html,
+        });
+      }
 
       return;
     } catch (error) {
@@ -51,16 +53,18 @@ export class MailService implements OnModuleInit {
   }
 
   async onModuleInit() {
-    this.mailTransport = nodemailer.createTransport({
-      service: 'smtp.yandex.ru',
-      host: 'smtp.yandex.ru',
-      port: 465,
-      secure: true,
-      auth: {
-        user: process.env.EMAIL_ADDRESS,
-        pass: process.env.EMAIL_PASSWORD,
-      },
-    });
+    if (process.env.USE_EMAIL_CHECK != '0') {
+      this.mailTransport = nodemailer.createTransport({
+        service: 'smtp.yandex.ru',
+        host: 'smtp.yandex.ru',
+        port: 465,
+        secure: true,
+        auth: {
+          user: process.env.EMAIL_ADDRESS,
+          pass: process.env.EMAIL_PASSWORD,
+        },
+      });
+    }
   }
 
   generateEmailToken() {
